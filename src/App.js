@@ -1,24 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import '@aws-amplify/ui-react/styles.css';
+
+import { Amplify } from 'aws-amplify';
+import { Authenticator } from '@aws-amplify/ui-react';
+
+Amplify.configure({
+  Auth: {
+      region: 'us-west-2',
+      userPoolId: 'us-west-2_yv4FMrCJ3',
+      userPoolWebClientId: '4qb721ooi39g3re6fjt90cogis'
+  }
+})
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  return (        
+    <Authenticator>
+      {({ signOut, user }) => (
+          <div>
+              <p>Welcome {user.username}</p>
+              <button onClick={signOut}>Sign out</button>
+          </div>
+      )}
+  </Authenticator>
   );
 }
 
